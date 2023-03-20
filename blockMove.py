@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List
 from enum import Enum
-from blockPos import Position, State
+from blockPos import Position, State, Map
 
 
 class Direction(Enum):
@@ -9,6 +9,7 @@ class Direction(Enum):
     DOWN = 2
     LEFT = 3
     RIGHT = 4
+    SPACEBAR = 5
 
     def direcList(dStr: str) -> List[Direction]:
         """
@@ -18,7 +19,8 @@ class Direction(Enum):
             'U': Direction.UP,
             'D': Direction.DOWN,
             'L': Direction.LEFT,
-            'R': Direction.RIGHT
+            'R': Direction.RIGHT,
+            'S': Direction.SPACEBAR
         }
         dirList = list()
         for char in dStr:
@@ -35,7 +37,8 @@ class Block:
 
     def next_pos(self, dir: Direction, block: int) -> Position:
 
-        nextpos = Position(self.pos.x1, self.pos.y1, self.pos.x2, self.pos.y2, self.pos.state)
+        newMap = Map(self.pos.maps.maps)
+        nextpos = Position(self.pos.x1, self.pos.y1, self.pos.x2, self.pos.y2, self.pos.state, self.pos.splblock, newMap)
 
         if self.pos.state is State.STANDING:
             if dir is Direction.UP:
@@ -102,15 +105,19 @@ class Block:
                     nextpos.x1 -= 1
                 if dir is Direction.RIGHT:
                     nextpos.x1 += 1
+                if dir is Direction.SPACEBAR:
+                    nextpos.splblock = 2
             if block == 2:
                 if dir is Direction.UP:
-                    nextpos.y1 += 1
+                    nextpos.y2 += 1
                 if dir is Direction.DOWN:
-                    nextpos.y1 -= 1
+                    nextpos.y2 -= 1
                 if dir is Direction.LEFT:
-                    nextpos.x1 -= 1
+                    nextpos.x2 -= 1
                 if dir is Direction.RIGHT:
-                    nextpos.x1 += 1
+                    nextpos.x2 += 1
+                if dir is Direction.SPACEBAR:
+                    nextpos.splblock = 1
 
             ### Update position when 2 blocks collided
 
@@ -124,9 +131,9 @@ class Block:
 
         return nextpos
     
-    def move(self, next_pos: Position):
-        """
-        Move the brick to the given position.
-        :param next_pos: Position object.
-        """
-        self.pos = next_pos
+    # def move(self, next_pos: Position):
+    #     """
+    #     Move the brick to the given position.
+    #     :param next_pos: Position object.
+    #     """
+    #     self.pos = next_pos
