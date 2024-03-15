@@ -12,7 +12,8 @@ class State(Enum):
 
 class Position:
 
-    def __init__(self, x1: int, y1: int, x2: int, y2: int, state: State = State.STANDING, splblock = 1, maps = Map()):
+    def __init__(self, x1: int, y1: int, x2: int, y2: int, 
+                 state: State = State.STANDING, splblock = 1, maps = Map()):
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2
@@ -39,9 +40,6 @@ class Position:
 
 class Special_Tile:
 
-    def __init__(self, type: int, x1: int, y1: int, x2: int, y2: int):
+    def __init__(self, type: int, aff: list()):
         self.type = type
-        self.x1 = x1
-        self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
+        self.aff = aff
