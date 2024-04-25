@@ -542,6 +542,7 @@ class Solve:
         path = self.best_move(node)
         end = time.time()
         print("\nMONTE CARLO TREE SEARCH COMPLETED ^^")
+        
         print("Steps:", len(path))
         print("Optimal path: ")
         print("[START] ", end="")
